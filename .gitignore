@@ -149,3 +149,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+#ignore special procfile for windows
+Procfile-local
