@@ -8,19 +8,22 @@
          "url": "http://example.com"
      },
      "authentication": {
-         "type": "none"
+         "type": "jwt"
      },
      "apiVersion": 1,
      "modules": {
          "generalPages": [
              {
                  "url": "/hello-world",
-                 "key": "hello-world",
+                 "key": "jira-poc",
                  "location": "system.top.navigation.bar",
                  "name": {
                      "value": "Greeting"
                  }
              }
          ]
+     },
+     "lifecycle": {
+       "installed": "add-on-installed-callback"
      }
  }
