@@ -25,5 +25,9 @@
      },
      "lifecycle": {
        "installed": "/add-on-installed-callback"
-     }
+     },
+     "scopes": [
+       "read",
+       "write"
+     ]
  }
