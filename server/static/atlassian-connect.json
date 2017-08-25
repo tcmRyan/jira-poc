@@ -1,16 +1,17 @@
 {
      "name": "Hello World",
      "description": "Atlassian Connect add-on",
-     "key": "com.example.myaddon",
+     "key": "jira-contraints-map",
      "baseUrl": "https://f98d8026.ngrok.io",
      "vendor": {
          "name": "Example, Inc.",
          "url": "http://example.com"
      },
+     "enableLicensing": false,
      "authentication": {
          "type": "jwt"
      },
-     "apiVersion": 1,
+     "apiVersion": 2,
      "modules": {
          "generalPages": [
              {
@@ -24,10 +25,12 @@
          ]
      },
      "lifecycle": {
-       "installed": "/add-on-installed-callback"
+       "installed": "/add-on-installed-callback",
+       "enabled": "/add-on-enabled"
      },
      "scopes": [
-       "read",
-       "write"
+       "READ",
+       "WRITE",
+       "ADMIN"
      ]
  }
