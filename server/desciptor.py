@@ -23,7 +23,8 @@ class Descriptor(object):
             'apiVersion': 2,
             'lifecycle': {
                 'installed': url_for('installed'),
-                'enabled': url_for('enabled')
+                'enabled': url_for('enabled'),
+                'uninstalled': url_for('uninstalled')
             },
             'scopes': scopes,
             "modules": {

@@ -16,6 +16,7 @@ class Authentication(db.Model):
     eventType = db.Column(db.String)
     publicKey = db.Column(db.String)
     serverVersion = db.Column(db.String)
+    installedBy = db.Column(db.String)
 
     def __init__(self, install_data):
         self.id = install_data.get('id')
@@ -30,6 +31,7 @@ class Authentication(db.Model):
         self.description = install_data.get('description')
         self.publicKey = install_data.get('publicKey')
         self.serverVersion = install_data.get('serverVersion')
+        self.installedBy = install_data.get('installedBy')
 
     def __repr__(self):
         return '<id {}>'.format(self.id)

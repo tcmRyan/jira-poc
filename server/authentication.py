@@ -1,6 +1,6 @@
+from urllib.parse import urlencode
 import atlassian_jwt
 import requests
-from urllib.parse import urlencode
 
 
 class SimpleAuthenticator(atlassian_jwt.Authenticator):
