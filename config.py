@@ -12,9 +12,11 @@ class Config(object):
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
+    BASE_URL = os.environ.get('NGROK_URL')
 
 
 class StagingConfig(Config):
     DEVELOPMENT = False
     DEBUG = False
+    BASE_URL = 'https://' + os.environ.get('HEROKU_APP_NAME', '') + '.herokuapp.com'
 

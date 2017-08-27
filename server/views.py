@@ -1,6 +1,7 @@
 import os
 from server import app, db
-from flask import render_template, send_from_directory, request
+from server.desciptor import Descriptor
+from flask import render_template, request, jsonify
 from server.models import Authentication
 from server.authentication import AtlassianRequest
 
@@ -29,15 +30,32 @@ def home():
 @app.route('/install/<descriptor>')
 def install(descriptor):
     """ Return the atlassian json file"""
-    return send_from_directory(static_path, descriptor)
+    install_app = {}
+    if descriptor == 'pythia':
+        install_app = Descriptor(
+            key='pythia-addon',
+            name='Pythia',
+            description='Visualize the current state of the engineering system and identify any engineering constraints',
+            vendor_name='Ryan Schaffer',
+            vendor_url='https://www.example.com',
+            scopes=['READ']
+        )
+
+    return jsonify(install_app.descriptor)
 
 
 @app.route('/add-on-installed-callback', methods=['POST'])
-def install_callback():
+def installed():
     install_data = request.get_json()
+    install_data.update({'installed_by': request.args.get('user_key')})
     auth = Authentication(install_data)
     db.session.add(auth)
     db.session.commit()
+    return 'OK'
+
+
+@app.route('/add-on-enabled', methods=['POST'])
+def enabled():
     return 'OK'
 
 
