@@ -29,6 +29,10 @@ template_path = os.path.join(os.path.join(site_root, "templates"))
 #     print(resp.content)
 #     return resp.content
 
+@app.route('/')
+def index():
+    return "Welcome"
+
 
 @app.route('/install/<descriptor>')
 def install(descriptor):
