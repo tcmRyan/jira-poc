@@ -1,13 +1,18 @@
 from urllib.parse import urlencode
 import atlassian_jwt
 import requests
+from functools import wraps
+from server.models import Authentication
+from flask import request
 
 
 class SimpleAuthenticator(atlassian_jwt.Authenticator):
 
-    def __init__(self, tenant_info_store):
+    def __init__(self, domain):
         super(SimpleAuthenticator, self).__init__()
-        self.tenant_info_store = tenant_info_store
+        tenant_info = Authentication.query.filter_by(baseUrl=domain).first().__dict__
+        tenant_info.pop('_sa_instance_state')
+        self.tenant_info_store = tenant_info
 
     def get_shared_secret(self, client_key):
         return self.tenant_info_store['sharedSecret']
@@ -49,3 +54,13 @@ class AtlassianRequest(object):
 
     def reset(self):
         self.session = requests.Session()
+
+
+def authenticate(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        base_url = request.args.get('xdm_e')
+        auth = SimpleAuthenticator(base_url)
+        client_key = auth.authenticate(request.method, request.url, request.headers)
+        return func(*args, **kwargs)
+    return wrapper
