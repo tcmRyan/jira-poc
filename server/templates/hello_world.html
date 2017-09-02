@@ -7,7 +7,19 @@
      <section id="content" class="ac-content">
          <div class="aui-page-header">
              <div class="aui-page-header-main">
-                 <h1>Hello World</h1>
+                 <h3>Projects</h3>
+                 <ul>
+                     {% for property in properties %}
+                         <li>{{ property.name}}</li>
+                     {% endfor %}
+                 </ul>
+                 <h3>Workflows</h3>
+                 <ul>
+                     {% for wf in workflows %}
+                        <li> {{ wf.name }}</li>
+                     {% endfor %}
+                 </ul>
+
              </div>
          </div>
      </section>

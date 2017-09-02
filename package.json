@@ -1,0 +1,22 @@
+{
+  "name": "jira-poc",
+  "version": "1.0.0",
+  "description": "Interaction with the jira api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tcmRyan/jira-poc.git"
+  },
+  "author": "Ryan Schaffer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tcmRyan/jira-poc/issues"
+  },
+  "homepage": "https://github.com/tcmRyan/jira-poc#readme",
+  "devDependencies": {
+    "bower": "^1.8.0"
+  }
+}

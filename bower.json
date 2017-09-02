@@ -1,0 +1,20 @@
+{
+  "name": "jira-poc",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Ryan Schaffer <ryan@tacticalcodemonkeys.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/tcmRyan/jira-poc",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}

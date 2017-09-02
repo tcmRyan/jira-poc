@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<link rel="stylesheet" href="//aui-cdn.atlassian.com/aui-adg/5.9.12/css/aui.min.css" media="all">-->
+    <meta charset="UTF-8">
+    <title>Atlassian API explorer</title>
+    <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='jquery.json-viewer/json-viewer/jquery.json-viewer.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='jquery.json-viewer/json-viewer/jquery.json-viewer.css')}}">
+    <script>
+    $(function() {
+  $('#btn-json-viewer').click(function() {
+    try {
+      var data = JSON.parse('{{ resp_data|tojson }}');
+    }
+    catch (error) {
+      return alert("Cannot eval JSON: " + error);
+    }
+    var options = {
+      collapsed: $('#collapsed').is(':checked'),
+      withQuotes: $('#with-quotes').is(':checked')
+    };
+    console.log(data);
+    $('#json-renderer').jsonViewer(data, options);
+  });
+  // Display JSON sample on load
+  $('#btn-json-viewer').click();})
+    </script>
+</head>
+<body>
+<form action="{{ url_for('explore') }}" method="post">
+    <label for="method">Method:</label>
+    <select name="method" id="method">
+        <option value="GET">GET</option>
+        <option value="POST">POST</option>
+    </select>
+    <label for="baseUrl">Base Url:</label>
+    <input type="text" name="baseUrl" id="baseUrl">
+    <label for="rel">Relative Path</label>
+    <input type="text" name="rel" id="rel">
+    <div class="input submit">
+        <input type="submit" value="Submit">
+    </div>
+
+</form>
+<p id="btn-json-viewer" title="run jsonViewer()"></p>
+<pre id="json-renderer"></pre>
+</body>
+</html>

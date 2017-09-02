@@ -30,7 +30,7 @@ class Descriptor(object):
             "modules": {
                 "generalPages": [
                     {
-                        "url": "/hello-world",
+                        "url": "/welcome",
                         "key": key,
                         "location": "system.top.navigation.bar",
                         "name": {

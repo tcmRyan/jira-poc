@@ -1,9 +1,11 @@
 from urllib.parse import urlencode
+from urllib.error import HTTPError
 import atlassian_jwt
 import requests
 from functools import wraps
 from server.models import Authentication
 from flask import request
+from server import app
 
 
 class SimpleAuthenticator(atlassian_jwt.Authenticator):
@@ -31,12 +33,14 @@ class AtlassianRequest(object):
         jwt_auth = atlassian_jwt.encode_token(
             method,
             uri,
-            self.tenant_data['key'],
-            self.tenant_data['sharedSecret']
+            self.tenant_data.key,
+            self.tenant_data.sharedSecret
         )
         return {'Authorization': 'JWT {}'.format(jwt_auth)}
 
-    def request(self, uri, method='GET', **kwargs):
+    def request(self, method, rel, **kwargs):
+        method = method.upper()
+        uri = self.tenant_data.baseUrl + rel
         request_args = {
             'url': uri,
             'method': method
@@ -61,6 +65,16 @@ def authenticate(func):
     def wrapper(*args, **kwargs):
         base_url = request.args.get('xdm_e')
         auth = SimpleAuthenticator(base_url)
-        client_key = auth.authenticate(request.method, request.url, request.headers)
+        auth.authenticate(request.method, request.url, request.headers)
         return func(*args, **kwargs)
+    return wrapper
+
+
+def development_only(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if app.config['DEVELOPMENT']:
+            return func(*args, **kwargs)
+        else:
+            return HTTPError(args[0], 403, 'Not a valid url for this environment')
     return wrapper

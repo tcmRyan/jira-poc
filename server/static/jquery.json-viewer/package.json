@@ -1,0 +1,87 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "jquery.json-viewer",
+        "scope": null,
+        "escapedName": "jquery.json-viewer",
+        "name": "jquery.json-viewer",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\Users\\schaf\\PycharmProjects\\jira-poc"
+    ]
+  ],
+  "_from": "jquery.json-viewer@latest",
+  "_id": "jquery.json-viewer@1.1.0",
+  "_inCache": true,
+  "_location": "/jquery.json-viewer",
+  "_nodeVersion": "5.1.0",
+  "_npmOperationalInternal": {
+    "host": "packages-6-west.internal.npmjs.com",
+    "tmp": "tmp/jquery.json-viewer-1.1.0.tgz_1456420186245_0.512151604052633"
+  },
+  "_npmUser": {
+    "name": "abodelot",
+    "email": "alexandre.bodelot@gmail.com"
+  },
+  "_npmVersion": "3.5.3",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "jquery.json-viewer",
+    "scope": null,
+    "escapedName": "jquery.json-viewer",
+    "name": "jquery.json-viewer",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/jquery.json-viewer/-/jquery.json-viewer-1.1.0.tgz",
+  "_shasum": "e97878cfa64c938a1eaf8d25cdf61f04d53df78d",
+  "_shrinkwrap": null,
+  "_spec": "jquery.json-viewer",
+  "_where": "C:\\Users\\schaf\\PycharmProjects\\jira-poc",
+  "author": {
+    "name": "Alexandre Bodelot",
+    "email": "alexandre.bodelot@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/abodelot/jquery.json-viewer/issues"
+  },
+  "dependencies": {},
+  "description": "jQuery plugin for displaying JSON data",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "e97878cfa64c938a1eaf8d25cdf61f04d53df78d",
+    "tarball": "https://registry.npmjs.org/jquery.json-viewer/-/jquery.json-viewer-1.1.0.tgz"
+  },
+  "gitHead": "5eee9ed4019b3607a5e57175ae74803737ced251",
+  "homepage": "https://github.com/abodelot/jquery.json-viewer",
+  "keywords": [
+    "jquery-plugin",
+    "json",
+    "json-viewer",
+    "json2html"
+  ],
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "abodelot",
+      "email": "alexandre.bodelot@gmail.com"
+    }
+  ],
+  "name": "jquery.json-viewer",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abodelot/jquery.json-viewer.git"
+  },
+  "scripts": {},
+  "version": "1.1.0"
+}

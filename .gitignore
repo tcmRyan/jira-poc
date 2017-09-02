@@ -152,3 +152,6 @@ ENV/
 
 #ignore special procfile for windows
 Procfile-local
+
+node_modules
+server/static/bower_components
