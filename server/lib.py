@@ -29,5 +29,5 @@ class AtLib(object):
         rel = '/rest/api/2/project/{project_id}/properties'.format(project_id=project_id)
         return self.request.request('GET', rel).json()
 
-    def explore_endpoint(self, method, rel):
-        return self.request.request(method, rel).json()
+    def explore_endpoint(self, method, rel, **kwargs):
+        return self.request.request(method, rel, **kwargs).json()

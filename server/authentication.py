@@ -46,7 +46,7 @@ class AtlassianRequest(object):
             'method': method
         }
         if kwargs.get('params'):
-            uri = uri + urlencode(kwargs.get('params'))
+            uri = uri + '?' + urlencode(kwargs.get('params'))
 
         auth_header = self._authorize(uri, method)
         headers = kwargs.get('headers', {})
@@ -54,7 +54,8 @@ class AtlassianRequest(object):
 
         request_args.update(kwargs)
 
-        return self.session.request(**request_args)
+        foo = self.session.request(**request_args)
+        return foo
 
     def reset(self):
         self.session = requests.Session()

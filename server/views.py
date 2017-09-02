@@ -67,11 +67,14 @@ def welcome():
 @app.route('/explore', methods=['GET', 'POST'])
 @development_only
 def explore():
+    params = {}
     if request.method == 'GET':
         return render_template('api_explorer.html', resp_data={})
     elif request.method == 'POST':
         req = AtLib(request.form['baseUrl'])
-        resp = req.explore_endpoint(request.form['method'], request.form['rel'])
+        if request.form['expand']:
+            params = {'expand': request.form['expand']}
+        resp = req.explore_endpoint(request.form['method'], request.form['rel'], params=params)
         return render_template('api_explorer.html', resp_data=resp)
     else:
         return 'Nope!'
