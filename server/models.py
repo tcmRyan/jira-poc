@@ -35,3 +35,37 @@ class Authentication(db.Model):
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+
+
+class IssueState(db.Model):
+    __tablename__ = 'issue_states'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=False)
+    name = db.Column(db.String)
+    to_changes = db.relationship("IssueChangeLog", backref='IssueState', lazy='dynamic')
+    from_changes = db.relationship('IssueChangeLog', backref='IssueState', lazy='dynamic')
+
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
+
+    def __repr__(self):
+        return '<name {}>'.format(self.name)
+
+
+class IssueChangeLog(db.Model):
+    __tablename__ = 'issue_change_logs'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    created = db.Column(db.DateTime)
+    from_state_id = db.Column(db.Integer, db.ForeignKey('issue_states.id'))
+    to_state_id = db.Column(db.Integer, db.ForeignKey('issue_states.id'))
+    end = db.Column(db.DateTime)
+
+    def __init__(self, created, from_state, to_state):
+        self.create = created
+        self.from_state = int(from_state)
+        self.to_state = int(to_state)
+
+    def __repr__(self):
+        return '<from {} to {}>'.format(self.from_state, self.to_state)

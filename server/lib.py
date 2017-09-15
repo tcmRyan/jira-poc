@@ -31,3 +31,20 @@ class AtLib(object):
 
     def explore_endpoint(self, method, rel, **kwargs):
         return self.request.request(method, rel, **kwargs).json()
+
+    def get_issue_metadata(self):
+        params = {'expand': 'projects'}
+        return self.request.request('GET', '/rest/api/2/issue/createmeta', params=params)
+
+    def issue_changelog(self, issue_id):
+        rel = "/rest/api/2/issue/{issueIdOrKey}/changelog".format(issueIdOrKey=issue_id)
+        return self.request.request('GET', rel).json()
+
+    def issues_in_project(self, project, start=0, max_results=50):
+        rel = "/rest/api/2/search"
+        params = {
+            'jql': 'project={}'.format(project),
+            'startAt': start,
+            'maxResults': max_results,
+        }
+        return self.request.request('GET', rel, params=params)
