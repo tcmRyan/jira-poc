@@ -42,8 +42,8 @@ class IssueState(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=False)
     name = db.Column(db.String)
-    to_changes = db.relationship("IssueChangeLog", backref='IssueState', lazy='dynamic')
-    from_changes = db.relationship('IssueChangeLog', backref='IssueState', lazy='dynamic')
+    to_changes = db.relationship("IssueChangeLog", backref='to_state', lazy='dynamic', foreign_keys='IssueChangeLog.to_state_id')
+    from_changes = db.relationship('IssueChangeLog', backref='from_state', lazy='dynamic', foreign_keys='IssueChangeLog.from_state_id')
 
     def __init__(self, id, name):
         self.id = id

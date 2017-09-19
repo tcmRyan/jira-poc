@@ -5,6 +5,7 @@ from flask import render_template, request, jsonify
 from server.models import Authentication
 from server.authentication import authenticate, development_only
 from server.lib import AtLib
+from server.scan import scan
 
 site_root = os.path.realpath(os.path.dirname(__file__))
 static_path = os.path.join(os.path.join(site_root, "static"))
@@ -59,9 +60,8 @@ def uninstalled():
 @authenticate
 def welcome():
     atlassian = AtLib(request.args.get('xdm_e'))
-    prop = atlassian.projects
-    workflows = atlassian.workflows
-    return render_template('hello_world.html', properties=prop, workflows=workflows)
+    proj = atlassian.projects
+    return render_template('hello_world.html', projects=proj)
 
 
 @app.route('/explore', methods=['GET', 'POST'])
@@ -78,3 +78,13 @@ def explore():
         return render_template('api_explorer.html', resp_data=resp)
     else:
         return 'Nope!'
+
+
+@app.route('/scan', methods=['POST'])
+def start_scan():
+    project = request.form['project']
+    domain = 'https://jira-poc.atlassian.net'
+
+    scan(domain, project)
+
+    return 'OK'

@@ -7,18 +7,18 @@
      <section id="content" class="ac-content">
          <div class="aui-page-header">
              <div class="aui-page-header-main">
-                 <h3>Projects</h3>
-                 <ul>
-                     {% for property in properties %}
-                         <li>{{ property.name}}</li>
-                     {% endfor %}
-                 </ul>
-                 <h3>Workflows</h3>
-                 <ul>
-                     {% for wf in workflows %}
-                        <li> {{ wf.name }}</li>
-                     {% endfor %}
-                 </ul>
+                 <h2>Select Project</h2>
+                    <form class="aui" action="{{ url_for('start_scan') }}" method="post">
+                        <select name="project" width="300px">
+                            {% for project in projects %}
+                            <option value="{{ project.key }}">{{ project.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="input submit">
+                            <input type="submit" value="Scan">
+                        </div>
+                    </form>
+
 
              </div>
          </div>

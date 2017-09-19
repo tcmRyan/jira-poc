@@ -7,34 +7,26 @@ from server.lib import AtLib
 LIMIT = 50
 
 
-@asyncio.coroutine
 def scan(domain, project):
     lib = AtLib(domain)
-    issues_left = True
-    start = 0
-    q = asyncio.Queue()
-    while issues_left:
-        result = fetch_page(lib, project, start)
-        start += LIMIT
-        if result['values']:
-            q.put_nowait(result['values'])
     loop = asyncio.get_event_loop()
-    tasks = [
-        asyncio.async(process_changelog(q)),
-        asyncio.async(process_changelog(q)),
-        asyncio.async(process_changelog(q))
-    ]
-    loop.run_until_complete(asyncio.wait(tasks))
+    q = asyncio.Queue(loop=loop)
+    producer = fetch_page(lib, project, q)
+    consumer = process_changelog(q)
+
+    loop.run_until_complete(asyncio.gather(producer, consumer))
     loop.close()
 
 
-@asyncio.coroutine
-def fetch_page(lib, project, start):
-    return lib.issues_in_project(project, start)
+async def fetch_page(lib, project, q, start=0):
+    result = lib.issues_in_project(project, start)
+    if result.get('values'):
+        await q.put_nowait(result['values'])
+    await q.put(None)
 
 
-def process_changelog(work_queue):
-    changelog = yield from work_queue.get()
+async def process_changelog(work_queue):
+    changelog = await work_queue.get()
     current_changelog = None
 
     for value in changelog['values']:

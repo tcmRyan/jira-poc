@@ -23,5 +23,6 @@ class Explorer(Resource):
         resp = req.request(request.form['method'], request.form['rel']).json()
         return jsonify(resp)
 
+
 api.add_resource(Test, '/hello-world')
 api.add_resource(Explorer, '/explore')
