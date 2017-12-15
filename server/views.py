@@ -5,7 +5,6 @@ from flask import render_template, request, jsonify
 from server.models import Authentication
 from server.authentication import authenticate, development_only
 from server.atl_requests.lib import AtLib
-from server.atl_requests import Ctx
 
 site_root = os.path.realpath(os.path.dirname(__file__))
 static_path = os.path.join(os.path.join(site_root, "static"))
