@@ -9,7 +9,6 @@ from server import app
 
 
 class SimpleAuthenticator(atlassian_jwt.Authenticator):
-
     def __init__(self, domain):
         super(SimpleAuthenticator, self).__init__()
         tenant_info = Authentication.query.filter_by(baseUrl=domain).first().__dict__
@@ -20,27 +19,22 @@ class SimpleAuthenticator(atlassian_jwt.Authenticator):
         return self.tenant_info_store['sharedSecret']
 
 
-class AtlassianRequest(object):
+class AtlassianRequest:
+    def __init__(self, session):
+        self.session = session
 
-    session = None
-    responses = None
-
-    def __init__(self, tenant_data):
-        self.session = requests.Session()
-        self.tenant_data = tenant_data
-
-    def _authorize(self, uri, method):
+    def _generate_auth_header(self, uri, method):
         jwt_auth = atlassian_jwt.encode_token(
             method,
             uri,
-            self.tenant_data.key,
-            self.tenant_data.sharedSecret
+            self.session.tenant_data.key,
+            self.session.tenant_data.sharedSecret
         )
-        return {'Authorization': 'JWT {}'.format(jwt_auth)}
+        return {f'Authorization': 'JWT {jwt_auth}'}
 
     def request(self, method, rel, **kwargs):
         method = method.upper()
-        uri = self.tenant_data.baseUrl + rel
+        uri = self.session.tenant_data.baseUrl + rel
         request_args = {
             'url': uri,
             'method': method
@@ -48,17 +42,25 @@ class AtlassianRequest(object):
         if kwargs.get('params'):
             uri = uri + '?' + urlencode(kwargs.get('params'))
 
-        auth_header = self._authorize(uri, method)
+        auth_header = self._generate_auth_header(uri, method)
         headers = kwargs.get('headers', {})
         kwargs['headers'] = auth_header if not headers else headers.append(auth_header)
 
         request_args.update(kwargs)
 
-        foo = self.session.request(**request_args)
-        return foo
+        return self.session.request(**request_args)
 
-    def reset(self):
-        self.session = requests.Session()
+    def get(self, rel, **kwargs):
+        self.request('GET', rel, **kwargs)
+
+    def post(self, rel, **kwargs):
+        self.request('POST', rel, **kwargs)
+
+    def put(self, rel, **kwargs):
+        self.request('PUT', rel, **kwargs)
+
+    def delete(self, rel, **kwargs):
+        self.request('DELETE', rel, **kwargs)
 
 
 def authenticate(func):
