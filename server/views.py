@@ -18,7 +18,7 @@ def index():
 
 @app.route('/install/<descriptor>')
 def install(descriptor):
-    """ Return the atlassian json file"""
+    """ Return the atlassian json file, supports multiple descriptors"""
     install_app = {}
     if descriptor == 'pythia':
         install_app = Descriptor(
