@@ -16,6 +16,7 @@ class Ctx:
 class AtlassianRequest:
     def __init__(self, org):
         self.ctx = Ctx(org)
+        self.session = requests.Session()
 
     def _generate_auth_header(self, uri, method):
         jwt_auth = atlassian_jwt.encode_token(
@@ -28,22 +29,21 @@ class AtlassianRequest:
 
     def request(self, method, rel, **kwargs):
         method = method.upper()
-        with requests.Session as session:
-            uri = self.ctx.base_url + rel
-            request_args = {
-                'url': uri,
-                'method': method
-            }
-            if kwargs.get('params'):
-                uri = uri + '?' + urlencode(kwargs.get('params'))
+        uri = self.ctx.base_url + rel
+        request_args = {
+            'url': uri,
+            'method': method
+        }
+        if kwargs.get('params'):
+            uri = uri + '?' + urlencode(kwargs.get('params'))
 
-            auth_header = self._generate_auth_header(uri, method)
-            headers = kwargs.get('headers', {})
-            kwargs['headers'] = auth_header if not headers else headers.append(auth_header)
+        auth_header = self._generate_auth_header(uri, method)
+        headers = kwargs.get('headers', {})
+        kwargs['headers'] = auth_header if not headers else headers.append(auth_header)
 
-            request_args.update(kwargs)
+        request_args.update(kwargs)
 
-            return session.request(**request_args)
+        return self.session.request(**request_args)
 
     def get(self, rel, **kwargs):
         return self.request('GET', rel, **kwargs)
