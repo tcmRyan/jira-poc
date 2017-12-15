@@ -9,7 +9,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 api = Api(app, prefix='/api/v1')
 
-from server.lib import AtLib
+from server.atl_requests.lib import AtLib
 AtLib('https://jira-poc.atlassian.net')
 import server.views
 import server.api
