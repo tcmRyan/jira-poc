@@ -5,17 +5,26 @@ from urllib.parse import urlencode
 from server.atl_requests.lib import AtLib
 
 
-class Ctx:
+class Context:
     def __init__(self, org):
         self.tenant_info = Authentication.query.filter_by(baseUrl=org).first()
-        self.base_url = self.tenant_info.baseUrl
-        self.key = self.tenant_info.key
-        self.shared_secret = self.tenant_info.sharedSecret
+
+    @property
+    def base_url(self):
+        return self.tenant_info.baseUrl
+
+    @property
+    def key(self):
+        return self.tenant_info.key
+
+    @property
+    def shared_secret(self):
+        return self.tenant_info.sharedSecret
 
 
-class AtlassianRequest:
-    def __init__(self, org):
-        self.ctx = Ctx(org)
+class AtlassianRequestor:
+    def __init__(self, ctx):
+        self.ctx = ctx
         self.session = requests.Session()
 
     def _generate_auth_header(self, uri, method):
