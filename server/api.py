@@ -2,7 +2,7 @@ from flask_restful import Resource
 from server import api
 from server.authentication import authenticate, development_only
 from flask import request, jsonify
-from server.lib import AtLib
+from server.atl_requests.lib import AtLib
 
 
 class Test(Resource):

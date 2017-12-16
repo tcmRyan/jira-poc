@@ -1,7 +1,5 @@
-from urllib.parse import urlencode
 from urllib.error import HTTPError
 import atlassian_jwt
-import requests
 from functools import wraps
 from server.models import Authentication
 from flask import request
@@ -17,50 +15,6 @@ class SimpleAuthenticator(atlassian_jwt.Authenticator):
 
     def get_shared_secret(self, client_key):
         return self.tenant_info_store['sharedSecret']
-
-
-class AtlassianRequest:
-    def __init__(self, session):
-        self.session = session
-
-    def _generate_auth_header(self, uri, method):
-        jwt_auth = atlassian_jwt.encode_token(
-            method,
-            uri,
-            self.session.tenant_data.key,
-            self.session.tenant_data.sharedSecret
-        )
-        return {f'Authorization': 'JWT {jwt_auth}'}
-
-    def request(self, method, rel, **kwargs):
-        method = method.upper()
-        uri = self.session.tenant_data.baseUrl + rel
-        request_args = {
-            'url': uri,
-            'method': method
-        }
-        if kwargs.get('params'):
-            uri = uri + '?' + urlencode(kwargs.get('params'))
-
-        auth_header = self._generate_auth_header(uri, method)
-        headers = kwargs.get('headers', {})
-        kwargs['headers'] = auth_header if not headers else headers.append(auth_header)
-
-        request_args.update(kwargs)
-
-        return self.session.request(**request_args)
-
-    def get(self, rel, **kwargs):
-        self.request('GET', rel, **kwargs)
-
-    def post(self, rel, **kwargs):
-        self.request('POST', rel, **kwargs)
-
-    def put(self, rel, **kwargs):
-        self.request('PUT', rel, **kwargs)
-
-    def delete(self, rel, **kwargs):
-        self.request('DELETE', rel, **kwargs)
 
 
 def authenticate(func):
