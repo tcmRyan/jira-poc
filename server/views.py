@@ -4,7 +4,7 @@ from server.desciptor import Descriptor
 from flask import render_template, request, jsonify
 from server.models import Authentication
 from server.authentication import authenticate, development_only
-from server.lib import AtLib
+from server.atl_requests.lib import AtLib
 
 site_root = os.path.realpath(os.path.dirname(__file__))
 static_path = os.path.join(os.path.join(site_root, "static"))
@@ -18,7 +18,7 @@ def index():
 
 @app.route('/install/<descriptor>')
 def install(descriptor):
-    """ Return the atlassian json file"""
+    """ Return the atlassian json file, supports multiple descriptors"""
     install_app = {}
     if descriptor == 'pythia':
         install_app = Descriptor(
