@@ -1,5 +1,6 @@
 from server import app
 from flask import url_for
+from server.webhooks import WebHook
 
 
 class Descriptor(object):
@@ -40,3 +41,17 @@ class Descriptor(object):
                 ]
             },
         }
+
+        self.build_description()
+
+    def build_description(self):
+        self.descriptor['modules']['webhooks'] = self.webhooks
+        pass
+
+    @property
+    def webhooks(self):
+        webhooks = []
+        for webhook in WebHook:
+            webhooks.append(webhook().descriptor)
+
+        return webhooks
