@@ -27,7 +27,7 @@ def install(descriptor):
             description='Visualize the current state of the engineering system and identify any engineering constraints',
             vendor_name='Ryan Schaffer',
             vendor_url='https://www.example.com',
-            scopes=['READ', 'ADMIN']
+            scopes=['read', 'admin']
         )
 
     return jsonify(install_app.descriptor)

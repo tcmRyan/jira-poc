@@ -20,13 +20,8 @@ Jira poc is a template to get started developing an atlassian-connect plugin usi
 
 Install the dependencies and devDependencies and start the server.
 
-To run locally create the .env with the following environmental variables:
-```
-APP_SECRET=
-APP_SETTINGS="config.DevelopmentConfig"
-DATABASE_URL=
-NGROK_URL=
-```
+To run locally create the .env by copying the .env_template to .env
+
 Then on the command line
 ```sh
 $ cd jira-poc

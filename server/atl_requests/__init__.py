@@ -2,7 +2,6 @@ from server.models import Authentication
 import atlassian_jwt
 import requests
 from urllib.parse import urlencode
-from server.atl_requests.lib import AtLib
 
 
 class Context:
