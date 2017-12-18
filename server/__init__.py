@@ -8,4 +8,5 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 import server.views
+import server.lifecycle
 import server.webhooks.callbacks
