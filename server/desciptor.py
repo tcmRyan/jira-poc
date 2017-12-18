@@ -1,6 +1,6 @@
 from server import app
 from flask import url_for
-from server.webhooks import WebHook
+from server.webhooks.registry import registered_callbacks
 
 
 class Descriptor(object):
@@ -46,12 +46,8 @@ class Descriptor(object):
 
     def build_description(self):
         self.descriptor['modules']['webhooks'] = self.webhooks
-        pass
 
     @property
     def webhooks(self):
-        webhooks = []
-        for webhook in WebHook:
-            webhooks.append(webhook().descriptor)
+        return [webhook().descriptor for webhook in registered_callbacks]
 
-        return webhooks

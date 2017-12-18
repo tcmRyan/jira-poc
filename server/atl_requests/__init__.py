@@ -1,24 +1,6 @@
-from server.models import Authentication
 import atlassian_jwt
 import requests
 from urllib.parse import urlencode
-
-
-class Context:
-    def __init__(self, org):
-        self.tenant_info = Authentication.query.filter_by(baseUrl=org).first()
-
-    @property
-    def base_url(self):
-        return self.tenant_info.baseUrl
-
-    @property
-    def key(self):
-        return self.tenant_info.key
-
-    @property
-    def shared_secret(self):
-        return self.tenant_info.sharedSecret
 
 
 class AtlassianRequestor:

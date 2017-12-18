@@ -1,41 +1,29 @@
-from flask import request, url_for
-from server.webhooks import WebhookContext, WebHook
-from server import app
+from flask import request
+from flask_restful import Resource
+from server.authentication import authenticate, Context
 
 
-class IssueCreationCallback(WebHook):
-    @app.route('/callbacks/issue-creation')
-    def callbacks_issue_creation(self):
+class IssueCreationCallback(Resource):
+    decorators = [authenticate]
+
+    @property
+    def url(self):
+        return '/callbacks/issue-creation'
+
+    def get(self):
+        return {}, 201
+
+    def post(self):
         data = request.get_json()
-        ctx = WebhookContext(data['issue'])
+        ctx = Context(data['issue']['self'])
         print('BaseUrl: {}, Key: {}, SharedSecret: {}'.format(ctx.base_url, ctx.key, ctx.shared_secret))
-        return 'OK'
+        return {}, 201
 
     @property
     def descriptor(self):
         description = {
             "event": "jira:issue_created",
-            "url": url_for('callbacks_issue_creation'),
-            "excludeBody": False,
-            "filter": "",
-        }
-        return description
-
-
-class IssueCreationCallback2(WebHook):
-    @app.route('/callbacks/issue-something-else')
-    def callbacks_issue_something_else(self):
-        data = request.get_json()
-        ctx = WebhookContext(data['issue'])
-        print('BaseUrl: {}, Key: {}, SharedSecret: {}'.format(ctx.base_url, ctx.key, ctx.shared_secret))
-        return 'OK'
-
-    @property
-    def descriptor(self):
-        description = {
-            "event": "jira:issue_created",
-            "url": url_for('callbacks_issue_something_else'),
-            "excludeBody": False,
-            "filter": "",
+            "url": self.url,
+            "excludeBody": False
         }
         return description
