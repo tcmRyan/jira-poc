@@ -1,4 +1,13 @@
 import os
+import requests
+
+
+def ngrok_url():
+    tunnels = requests.get('http://ngrok:4040/api/tunnels').json()['tunnels']
+    for tunnel in tunnels:
+        if tunnel['proto'] == 'https':
+            return tunnel['public_url']
+    raise ValueError('No https tunnel available')
 
 
 class Config(object):
@@ -12,11 +21,11 @@ class Config(object):
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
-    BASE_URL = os.environ.get('NGROK_URL')
+    test = 2
+    BASE_URL = ngrok_url()
 
 
 class StagingConfig(Config):
     DEVELOPMENT = False
     DEBUG = False
     BASE_URL = 'https://' + os.environ.get('HEROKU_APP_NAME', '') + '.herokuapp.com'
-
