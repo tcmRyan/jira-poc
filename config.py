@@ -21,7 +21,6 @@ class Config(object):
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
-    test = 2
     BASE_URL = ngrok_url()
 
 
