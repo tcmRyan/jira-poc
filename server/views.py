@@ -18,6 +18,12 @@ def welcome():
     return render_template('hello_world.html', properties=prop, workflows=workflows)
 
 
+@app.route('/config')
+def config():
+    tunnel = app.config.get('BASE_URL')
+    return render_template('config.html', tunnel=tunnel)
+
+
 @app.route('/explore', methods=['GET', 'POST'])
 @development_only
 def explore():

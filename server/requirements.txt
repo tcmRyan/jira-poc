@@ -1,4 +1,4 @@
-alembic==0.9.5
+alembic
 aniso8601==1.2.1
 atlassian-jwt==1.8.1
 certifi==2017.7.27.1
@@ -25,3 +25,4 @@ SQLAlchemy==1.1.13
 urllib3==1.22
 Werkzeug==0.12.2
 flask-restful
+rq
