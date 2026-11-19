@@ -3,7 +3,8 @@ import atlassian_jwt
 from functools import wraps
 from flask import request
 from server import app
-from server.models import Authentication
+from server.queries import connection
+from server.queries.authentications.queries import queries
 from urllib.parse import urlparse
 import json
 
@@ -16,7 +17,8 @@ def parse_url(url):
 class Context:
     def __init__(self, url):
         org = parse_url(url)
-        self.tenant_info = Authentication.query.filter_by(baseUrl=org).first().__dict__
+        with connection() as conn:
+            self.tenant_info = dict(queries.get_authentication_by_base_url(conn, base_url=org))
 
     @property
     def base_url(self):
